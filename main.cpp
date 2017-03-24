@@ -7,49 +7,59 @@
 #include <cstdio>
 using namespace std;
 int main(){
-string str;
-char text[1000];
-ifstream fin("text.txt",ios::in);
-ofstream out("text2.txt", ios::out);
-while (true)
-{
-	int i = 0;
-	getline(fin,str);
-	cout << str<<endl;
-	cout<<str.size()<<endl;
-	strcpy_s(text, str.c_str());
-	int c = str.size();
-	queue<char> A(100);
-	queue<char> B(100);
-	queue<char> C(100);
-	if (fin.eof()) break;
-	for (i=0; i < c+1; i++)
+	string str;
+	char text[1000];
+	ifstream fin("text.txt", ios::in);
+	ofstream out("text2.txt", ios::out);
+	while (true)
 	{
-		if (((((str[i] >= 65) && (str[i] <= 90)) || ((str[i] >= 97) && (str[i] <= 122)))) && (str[i]!='\0'))
+		int i = 0;
+		getline(fin, str);
+		cout << str << endl;
+		cout << str.size() << endl;
+		strcpy_s(text, str.c_str());
+		int c = str.size();
+		queue<char> A(100);
+		queue<char> B(100);
+		queue<char> C(100);
+		if (fin.eof()) break;
+		for (i = 0; i < c + 1; i++)
 		{
-			A.push(str[i]);
+			if (((((str[i] >= 65) && (str[i] <= 90)) || ((str[i] >= 97) && (str[i] <= 122)))) && (str[i] != '\0'))
+			{
+				A.push(str[i]);
+			}
+			if (((str[i] >= '0') && (str[i] <= '9')) && (str[i] != '\0'))
+			{
+				B.push(str[i]);
+			}
+			if ((((str[i] >= 33) && (str[i] <= 47)) || ((str[i] >= 58) && (str[i] <= 64)) || ((str[i] >= 91) && (str[i] <= 96)) || ((str[i] >= 123) && (str[i] <= 126))) && (str[i] != '\0'))
+			{
+				C.push(str[i]);
+			}
 		}
-		if (((str[i] >= '0') && (str[i] <= '9')) && (str[i] != '\0'))
+		i = 0;
+		char pr[1000] = { 0 };
+		while (!A.empty())
 		{
-			B.push(str[i]);
+			pr[i] = A.front();
+			A.pop();
+			i++;
 		}
+		while (!B.empty())
+		{
+			pr[i] = B.front();
+			B.pop();
+			i++;
+		}
+		while (!C.empty())
+		{
+			pr[i] = C.front();
+			C.pop();
+			i++;
+		}
+		out << pr << endl;
 	}
-	i = 0;
-	char pr[1000] = {0};
-	while (!A.empty())
-	{
-		pr[i] = A.front();
-		A.pop();
-		i++;
-	}
-	while (!B.empty())
-	{
-		pr[i] = B.front();
-		B.pop();
-		i++;
-	}
-	out << pr << endl;
-}
 	fin.close();
 	out.close();
 	return(0);
